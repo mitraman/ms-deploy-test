@@ -24,7 +24,12 @@ jobs:
         
     # Runs a single command using the runners shell
     - name: Run a one-line script
-      run: echo Hello, world!
+      run: echo Hello, world! access key: $AWS_ACCESS_KEY_ID
+      env:
+        $AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        $AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+        $REGION_CODE: eu-west-2
+        $CLUSTER_NAME: ms-up-running
     
     # Build docker image
 
