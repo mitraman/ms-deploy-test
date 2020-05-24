@@ -21,7 +21,10 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
+      env:
+        $region_code: eu-west-2
+        $cluster_name: ms-up-running
+        
     # Runs a single command using the runners shell
     - name: Run a one-line script
       run: echo Hello, world!
@@ -41,6 +44,16 @@ jobs:
         echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
         sudo apt-get update
         sudo apt-get install -y kubectl
+        
+    # Install the AWS CLI and setup kubeconfig
+    - name: Install AWS CLI
+      run: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+        aws eks --region $region_code update-kubeconfig --name $cluster_name
+        
+    # Test to see if kubectl works
         
     # Configure kubectl for the cluster
 
