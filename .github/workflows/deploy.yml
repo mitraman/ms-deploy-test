@@ -21,9 +21,6 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-      env:
-        $region_code: eu-west-2
-        $cluster_name: ms-up-running
         
     # Runs a single command using the runners shell
     - name: Run a one-line script
@@ -48,7 +45,11 @@ jobs:
         sudo ./aws/install
         
     - name: Setup Kubeconfig
-      run: aws eks --region $region_code update-kubeconfig --name $cluster_name
+      run: aws eks --region $REGION_CODE update-kubeconfig --name $CLUSTER_NAME
+      env:
+        $REGION_CODE: eu-west-2
+        $CLUSTER_NAME: ms-up-running
+
         
     # Test to see if kubectl works
         
